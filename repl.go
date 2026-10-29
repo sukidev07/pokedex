@@ -4,11 +4,15 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"pokedex/internal/pokeapi"
 	"strings"
 )
 
 type config struct {
-	commands map[string]cliCommand
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+	commands         map[string]cliCommand
 }
 
 type cliCommand struct {
@@ -28,6 +32,16 @@ func getCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exit the Pokedex",
 			callback:    commandExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Get the next page of locations",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
 		},
 	}
 }
